@@ -29,11 +29,9 @@ Using the `gss` dataset (which has survey data with the individual respondent as
 The `gss` dataset can be found in `poliscidata::gss`. Take a look at `?gss` to see what these variables measure.
 :::
 
-**Answer -** Degree Frequency Distribution and Bar Chart
+**Answer -** This variable provides the number of degrees that voters have. The highest number in the distribution comes from people with High School diplomas.
 
 ```{r}
-degree_data <- select(poliscidata::gss, degree)
-
 degree <- gss |> 
   group_by(degree) |>
   summarize(count = n())
@@ -46,11 +44,9 @@ ggplot(degree, aes(x = degree, y = count)) +
 summary(degree)
 ```
 
-**Answer -** Party Identification Frequency Distribution and Bar Chart
+**Answer -** This distribution is a description of the party identification of voters. Independents have the highest number in the distribution.
 
 ```{r}
-partyid_data <- select(poliscidata::gss, partyid_3)
-
 partyid <- gss |> 
   group_by(partyid_3) |>
   summarize(count = n())
@@ -166,6 +162,8 @@ Using the `states` dataset (the unit of analysis is each U.S. state), generate a
 The `states` data set can be found in `poliscidata::states`. Take a look at `?states` to see what these variables measure.
 :::
 
+**Answer -** This distribution shows the turnout of people eligible to vote in 2012. The minimum turnout was 44.20, the median turnout was 59.65, the mean was 59.94, and the maximum turnout was 75.70.
+
 ```{r}
 poliscidata::states
 
@@ -182,6 +180,8 @@ ggplot(vep12, aes(x=states$vep12_turnout)) +
   theme_minimal()
 
 ```
+
+**Answer -** This distribution shows the cigarette tax per pack in 2012. The minimum was .170, the median was 1.349, the mean was 1.464, and the maximum was 4.350.
 
 ```{r}
 cig_tax <- data.frame(states$cig_tax12)
