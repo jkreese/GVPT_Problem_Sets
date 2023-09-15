@@ -32,6 +32,8 @@ The `gss` dataset can be found in `poliscidata::gss`. Take a look at `?gss` to s
 **Answer -** This variable provides the number of degrees that voters have. The highest number in the distribution comes from people with High School diplomas.
 
 ```{r}
+gss <- poliscidata::gss
+
 degree <- gss |> 
   group_by(degree) |>
   summarize(count = n())
@@ -165,7 +167,7 @@ The `states` data set can be found in `poliscidata::states`. Take a look at `?st
 **Answer -** This distribution shows the turnout of people eligible to vote in 2012. The minimum turnout was 44.20, the median turnout was 59.65, the mean was 59.94, and the maximum turnout was 75.70.
 
 ```{r}
-poliscidata::states
+states <- poliscidata::states
 
 vep12 <- data.frame(states$vep12_turnout)
 
