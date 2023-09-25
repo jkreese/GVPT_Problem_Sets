@@ -20,10 +20,8 @@ Please upload your completed assignment to the ELMs course site (under the assig
 library(tidyverse)
 library(ggplot2)
 library(poliscidata)
-library(countrycode)
 library(broom)
 library(janitor)
-library(ggridges)
 library(modelsummary)
 ```
 
