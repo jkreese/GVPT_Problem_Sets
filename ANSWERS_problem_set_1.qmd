@@ -34,7 +34,8 @@ The `gss` dataset can be found in `poliscidata::gss`. Take a look at `?gss` to s
 ```{r}
 gss <- poliscidata::gss
 
-degree <- gss |> 
+degree <- 
+  gss |> 
   group_by(degree) |>
   summarize(count = n())
 
