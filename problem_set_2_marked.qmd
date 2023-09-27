@@ -1,0 +1,410 @@
+---
+title: "Problem Set 2"
+subtitle: "Due date: 25 September"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: false
+  warning: false
+  message: false
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 30**
+
+::: {.callout-tip title="HG comments"}
+Well done! Please remember to answer every question in full. 22/30
+:::
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(poliscidata)
+library(broom)
+library(janitor)
+library(modelsummary)
+```
+
+## Question 1
+
+*Points: 5*
+
+::: {.callout-tip title="HG comments"}
+2/5
+:::
+
+Using the `states` data, produce a scatterplot of the variables `womleg_2015` and `libpct_m` (with `womleg_2015` as the dependent variable on the y-axis). Describe the scatterplot and include a copy of it. Note any suspected outliers, if any (a visual inspection will suffice for this question). Lastly, give the general equation for the correlation between `womleg_2015` and `libpct_m` (include as much information as possible), but do not solve it.
+
+::: callout-note
+The `states` data set can be found in `poliscidata::states`. Take a look at `?states` to see what these variables measure.
+:::
+
+**Answer ---** This scatterplot has a positive correlation indicating that when there was a higher percentage of the mass that identified as liberal, it caused a higher percentage of women in state legislators in 2015. 
+
+::: {.callout-tip title="HG comments"}
+Just be careful when using causal language. It is more accurate to say that a higher percentage of the mass public that identifies as Liberal *is associated with* a higher percentage of women in state legislators in 2015. We cannot use correlation alone to prove a causal relationship. 
+:::
+
+Although it's not a strong correlation, it's still indicative of a positive one. One could infer that there were more factors at play when roughly 25% to 28% of the mass public identified as liberal because there was a slight decline of the percentage of women in the state legislators.
+
+::: {.callout-tip title="HG comments"}
+The question asks you to identify potential outliers by inspecting the graph. 
+:::
+
+```{r}
+states <- data.frame(poliscidata::states)
+libmass <- data.frame(poliscidata::states$libpct_m)
+womleg15 <- data.frame(poliscidata::states$womleg_2015)
+
+ggplot(poliscidata::states, aes(x = libpct_m, y = womleg_2015)) +
+  geom_point() +
+  labs(x = "Percent of Mass Public Who Idenified as Liberal", y = "Percent of Women State Legislators in 2015") +
+  theme_minimal()
+```
+
+```{r}
+?cor()
+
+cor(poliscidata::states$libpct_m, poliscidata::states$womleg_2015, use = "everything", method = c("pearson"))
+```
+
+**Correlation Equation ---** Y = womleg15 + 0.6088832(libmass)
+
+::: {.callout-tip title="HG comments"}
+The general regression equation is: 
+
+$$
+y_i = \beta_0 + \beta_1x_i + \epsilon
+$$
+
+Here, it is:
+
+$$
+womleg\_2015 = \beta_0 + \beta_1libpct\_m + \epsilon
+$$
+
+The equation you provide mixes up the intercept coefficient ($\beta_0$) with the dependent variable ($womleg\_2015$) and the $libpct\_m$ coefficient with the correlation coefficient. 
+:::
+
+## Question 2
+
+*Points: 5*
+
+::: {.callout-tip title="HG comments"}
+3/5
+:::
+
+Regress `womleg_2015` (as the dependent variable) on `libpct_m` and report the results in a professionally formatted table. Write the model equation with the estimated coefficients and interpret them. What does the value of $R^2$ tell us about this model?
+
+```{r}
+ggplot(poliscidata::states, aes(x = libpct_m, y = womleg_2015)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  labs(x = "Percent of Mass Public Who Idenified as Liberal", y = "Percent of Women State Legislators in 2015") +
+  theme_minimal()
+```
+
+```{r}
+regress <- lm(womleg_2015 ~ libpct_m, data = states)
+
+regress
+```
+
+```{r}
+modelsummary::modelsummary(regress,
+             statistic = NULL,
+             coef_rename = c("libpct_m" = "Liberal Mass Public (percentage)"),
+             gof_map = "nobs"
+             )
+```
+
+::: {.callout-tip title="HG comments"}
+A very nice table.
+:::
+
+```{r}
+glance(regress) |>
+  select(r.squared)
+```
+
+::: {.callout-tip title="HG comments"}
+The question asks you write the model equation with the estimated coefficients and interpret them. 
+:::
+
+**Answer ---** R\^2 of 0.3707388 means that roughly 37.07% of women in state legislators in 2015 can be explained by the percentage of the mass public that identify as liberal. This means that there is a relatively weak relationship.
+
+::: {.callout-tip title="HG comments"}
+Almost! The $R^2$ value tells us what proportion of the variation in our dependent variable is explained by variation in our independent variables. 
+
+Here, an $R^2$ value of 0.3707 indicates that roughly 37.07% of the *variation* in the percentage of state legislators who identify as women is explained by *changes* in the percentage of the mass public that identify as Liberal.  
+:::
+
+## Question 3
+
+*Points: 5*
+
+::: {.callout-tip title="HG comments"}
+3/5
+:::
+
+Based on this regression, find the predicted value, the observed value, and compute the residual for the state of Colorado and then the state of Georgia. Lastly, compute the total aggregate error from those two select observations combined (i.e., Colorado and Georgia).
+
+::: callout-tip
+Think RSS.
+:::
+
+**Predicted**
+
+```{r}
+tidy(regress)
+```
+
+```{r}
+m_reg <- tidy(regress)
+
+beta_0 <- m_reg |> 
+  filter(term == "(Intercept)") |> 
+  pull(estimate)
+
+beta_0
+```
+
+```{r}
+beta_1 <- m_reg |> 
+  filter(term == "libpct_m") |> 
+  pull(estimate)
+
+beta_1
+```
+
+```{r}
+Co_Ga <- states |>
+  filter(stateid%in%c("CO    ", "GA    ")) |>
+  select(stateid, libpct_m)
+
+Co_Ga
+```
+
+```{r}
+wom_predict <- beta_0 + beta_1 * Co_Ga
+
+wom_predict
+
+womleg_CO <- beta_0 + beta_1 * 21.67878	
+
+womleg_GA <- beta_0 + beta_1 * 17.61538	
+```
+
+When 21.67% of the mass public in Colorado identifying as liberal they are predicted to have an average percent of 26.36 women in the state legislator in 2015.
+
+When 17.61% of the mass public in Georgia identifying as liberal they are predicted to have an average percent of 21.71 women in the state legislator in 2015.
+
+**Observed Values**
+
+GA = 17.61538
+
+CO = 21.67878
+
+::: {.callout-tip title="HG comments"}
+These are the observed values of the independent variable, `libpct_m`. The question is not clear so I have not deducted points, but we were looking for the observed values of your dependent variable, `womleg_2015`. 
+:::
+
+**Residual Value**
+
+```{r}
+21.67878 - 17.61538
+```
+
+Residual = 4.0634
+
+::: {.callout-tip title="HG comments"}
+The residual is the difference between the observed value and predicted value of your dependent variable. It gives you a sense of how well your model captures the relationship between these variables. 
+
+To calculate the residual:
+
+$$
+observed\ value - predicted\ value
+$$
+
+Here, for Colorado: 
+
+$$
+womleg\_2015_{CO} - \hat{womleg\_2015_{CO}} = 42 - 26.4 = 15.6
+$$
+
+For Georgia:
+
+$$
+womleg\_2015_{GA} - \hat{womleg\_2015_{GA}} = 22.9 - 21.7 = 1.19
+$$
+
+:::
+
+**Aggregate Error**
+
+```{r}
+augment(regress) |> 
+  select(womleg_2015, .fitted, .resid)
+```
+
+```{r}
+ggplot(augment(regress), aes(x = .resid)) + 
+  geom_density() + 
+  geom_vline(xintercept = 0) + 
+  theme_minimal()
+```
+
+::: {.callout-tip title="HG comments"}
+The question asks for the total aggregate error from those two select observations combined.
+
+To calculate this, you add the squared residuals for the two select observations.
+
+$$
+15.6^2 + 1.19^2 = 246
+$$
+
+I would also accept the straight sum of the residuals. 
+:::
+
+## Question 4
+
+*Points: 5*
+
+::: {.callout-tip title="HG comments"}
+5/5
+:::
+
+Using the `states` dataset, assess the relationship between the following two variables: `obama_win12` and `gun_rank3`. Construct a cross-tab and describe the nature of the relationship (if any) in detail.
+
+::: callout-note
+The variable `Obama_win12` is a dichotomous indicator of whether Obama won the state in 2012 (Obama won; Obama lost). The variable `gun_rank3` represents the general (ordinal) extent of gun restrictions in each state (more restrictions; middle restrictions; less restrictions).
+:::
+
+::: callout-caution
+Please note that you would customarily want a greater number of observations within each cell before conducting such an analysis.
+:::
+
+```{r}
+library(poliscidata)
+library(modelsummary)
+
+datasummary_crosstab(obama_win12 ~ gun_rank3, data = states)
+```
+
+**Answer ---** The most states that Obama won, 14 to be exact, were states that had more restrictive gun laws, and he lost in 18 states that had less restrictive gun laws. One could infer that this is because of Obama favoring stricter gun laws during his first term in office.
+
+## Question 5
+
+*Points: 5*
+
+::: {.callout-tip title="HG comments"}
+4/5
+:::
+
+I hypothesize that religious identifiers in the mass public are less likely to support federal government support of scientific research. I use data from the General Social Survey to evaluate this hypothesis. In particular, I use a three-category indicator of religious attendance to measure religious identification (low attendance; moderate attendance; high attendance) and a three-category indicator of perceptions toward the federal government's support for scientific research (federal government provides "too little" support; "about right"; federal government provides "too much" support). Complete the cross-tab below so that you may properly evaluate my hypothesis.
+
+::: callout-note
+Table entries are raw counts of observations within each cell.
+:::
+
+![](img/ps2_cross_tab.png)
+
+```{r}
+342 + 356 + 106 
+
+190 + 213 + 51
+
+182 + 287 + 91
+```
+
+**Row Totals:**
+
+**Low: 804**
+
+**Moderate: 454**
+
+**High: 560**
+
+```{r}
+342 + 190 + 182
+
+356 + 213 + 287
+
+106 + 51 + 91
+```
+
+**Column Totals:**
+
+**Too Little: 714**
+
+**About Right: 856**
+
+**Too Much: 248**
+
+```{r}
+804 + 454 + 560
+```
+
+**Column/row total: 1818**
+
+**Evaluation of Hypothesis ---** The hypothesis seems to be weak. If religious identifiers are less likely to support federal government support of scientific research, then we should see a higher number in the "too much" column. The findings were very interesting because one would expect that those with a low religious attendance would view supporting federal government support of scientific research as "too little" or "about right"; however, the low religious attendance group had the highest number of people (106) that believed there is "too much" federal government support.
+
+::: {.callout-tip title="HG comments"}
+It is better to look at the distribution of support across these categories as a percent of either the row or column. Using the raw count can make comparing across categories difficult. 
+:::
+
+## Question 6
+
+::: {.callout-tip title="HG comments"}
+5/5
+:::
+
+*Points: 5*
+
+Say I wish to explore the relationship between the relative advantage of Democrats (`dem_advantage`) in a state and abortion policy (`abort_rank3`). The `dem_advantage` variable is a continuous indicator where higher values represent a greater Democratic advantage among the mass public; `abort_rank3` is an ordinal indicator for the extent of abortion restrictions in each state (fewer restrictions; middle restrictions; more restrictions). To explore this relationship, complete the following:
+
+### Part A
+
+Create a new variable (i.e., `dem_adv`) based on the `dem_advantage` variable. Calculate the summary statistics of `dem_advantage` and assign the following values to our new variable: if `dem_advantage` is less than the first quartile, set `dem_adv` to `Low`; if the value for `dem_advantage` is greater than the first quartile and less than the third quartile, set the value to `Mid`; and if the value of `dem_advantage` is greater than the third quartile, set the value to `High`.
+
+```{r}
+summary_stats <- summary(states$dem_advantage)
+
+summary_stats
+```
+
+```{r}
+quartiles <- quantile(states$dem_advantage, probs = c(0.25, 0.75))
+
+quartiles
+```
+
+```{r}
+states <- states <- states |>
+  mutate(dem_adv = case_when(
+    dem_advantage < quartiles[1] ~ "Low",
+    dem_advantage >= quartiles[1] & dem_advantage < quartiles[2] ~ "Mid",
+    dem_advantage > quartiles[2] ~ "High"
+  ))
+```
+
+### Part B
+
+Create a crosstab using R; include your results in a professionally formatted table.
+
+```{r}
+library(poliscidata)
+library(modelsummary)
+
+datasummary_crosstab(abort_rank3 ~ dem_adv, data = states)
+```
+
+### Part C
+
+What relationship (if any) is there between the relative advantage of Democrats in a given state and the restrictiveness of Abortion policy?
+
+**Answer ---** When a state has less restrictive abortion laws, the Democratic advantage is high at 56.2%. When a state has more restrictive abortion laws, the Democratic advantage is not high (0%). In fact, its is mid, at 64.7 % and low, at 35.3%.
