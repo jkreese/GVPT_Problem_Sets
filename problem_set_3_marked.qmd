@@ -1,0 +1,185 @@
+---
+title: "Problem Set 3"
+subtitle: "Due date: 2 October"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 30**
+
+::: {.callout-tip title="HG comments"}
+21/30
+:::
+
+## Question 1
+
+*Points: 10*
+
+::: {.callout-tip title="HG comments"}
+7/10
+:::
+
+Suppose I want to examine the hypothesis that consuming political news coverage from cable network channels (e.g., CNN, MSNBC, Fox News, etc.) causes citizens to have less trust in government than if they were to consume it from mainstream print media (e.g., New York Times, Wall Street Journal, etc.). What is more, suppose that I believe that this effect is greatest among "young" citizens. Design the contours of an experiment to test this proposition (and be sure to sketch the key elements of the experimental design). Second, briefly describe any significant shortcomings that the experimental design might have.
+
+**Experimental Design:**
+
+I would create an experiment with a randomly selected group of participants that are stratified into two groups: 18-30 years old and 31+ years old. 
+
+::: {.callout-tip title="HG comments"}
+How large would your sample need to be? 
+:::
+
+Then, the participants will be randomly assigned to two different conditions. Condition 1, which is the control group, would consist of the the participants in consuming news articles from mainstream print media. Condition 2, which is the experimental group, would consist of participants consuming their news through video clips or transcripts from cable news channels.
+
+::: {.callout-tip title="HG comments"}
+You need a control group. A group of people who consume their usual media. This gives you a baseline from which to compare the effect of your two treatments. 
+:::
+
+The dependent variable is participants' trust in government, while the independent variable is the method a participant uses to consume their news. The dependent variable will be tested using a pre-test, exposure to their assigned condition, and a post-test. The pre-test would ask the participants about their trust in government prior to being exposed to news content. The post-test would ask the participants to measure their trust in government after being exposed to their assigned condition.
+
+Data collection on demographic variables such as gender, age, political affiliation, education level, etc., will allow the researcher to control for possible confounding factors. For example, their maybe a link among women or people who identify as Republicans. A regression analysis would allow the researcher to compare the change in trust in government between the two conditions.
+
+**Significant Shortcomings:**
+
+The generalizability of the findings may be limited since they would applicable to the selected sample rather than the entire population. 
+
+::: {.callout-tip title="HG comments"}
+You should be okay here because you took a simple random sample from the population. 
+:::
+
+There is also the possibility that participants might change their responses when they are aware that their being studied in the post-test. If the responses are changed, it could be to make them more socially desirable instead of displaying their honest opinions.
+
+## Question 2
+
+*Points: 10*
+
+::: {.callout-tip title="HG comments"}
+6/10
+:::
+
+Below are four hypothetical research designs to determine the effects of democratic governance on the funding of educational institutions. Briefly evaluate each sampling design in terms of its: (1) sampling variability; and, (2) sources of potential bias.
+
+A.  A sample of educational funding levels for every country in Europe for each of the last 100 years.
+
+    ***Sampling variability: This design has the least sampling variability because it has too high of a representative population since it includes all the countries in Europe for a long period.***
+    
+    ::: {.callout-tip title="HG comments"}
+    Correct. If I pull repeated samples of educational funding levels for *every* country in Europe for *each* of the last 100 years, I will get the same values each sample. There will be no variability.
+    :::
+    
+    ***Potential bias: The potential bias is the selection process if the research used certain criteria to make European countries different from non-European countries.***
+    
+    ::: {.callout-tip title="HG comments"}
+    Your population is all countries globally. European countries are likely to have different levels of funding of educational institutions to all countries globally. Further, there are a greater proportion of democratic countries in Europe than exist globally, so we may not have a sufficiently large sample of non-democracies to reflect their funding of education institutions. 
+    :::
+
+B.  A sample of educational funding levels in five randomly picked countries drawn from the global population of countries for each of the last 10 years.
+
+    ***Sampling variability: This has a moderately high variability since the funding levels are randomly selected from a global population.***
+    
+    ::: {.callout-tip title="HG comments"}
+    You will likely get a very high level of sampling variability. You are only drawing a sample of 3 percent of your population. Educational funding levels across this population vary widely. 
+    :::
+
+    ***Potential bias: The potential bias is based on the selection process if the five countries selected are not appropriately representative of the global population.***
+    
+    ::: {.callout-tip title="HG comments"}
+    There should be no bias because the countries are randomly selected. All countries have equal chance of being selected.  
+    :::
+
+C.  A survey of educational administrators that yields responses that allow for a comparison of educational funding levels in Russia and the United States for the six-year period from 2010 to 2015.
+
+    ***Sampling variability: Although it is not as representative as a global population, it has a moderately high variability since it provides detailed information about Russia and the United States.***
+    
+    ::: {.callout-tip title="HG comments"}
+    If I take a survey of all educational administrators working in Russia and the United States over this six-year period, I will get a sample with low sampling variability. If I repeatedly asked all administrators what level of funding their institutions receive, I should get the same values each time.  
+    :::
+
+    ***Potential bias: If the education administrators in Russia and the United States have different methods of reporting or interpreting funding levels, it leaves room for a potential response bias.***
+
+    ::: {.callout-tip title="HG comments"}
+    Correct. These administrators may be incentivized to misrepresent the level of funding they receive.    
+    Also, these countries' levels of funding of education institutions do not reflect those that exist globally. Also, these countries (one democracy and one non-democracy) do not reflect the distribution of democracies and non-democracies globally.
+    :::
+
+D.  A sample of 75 randomly selected countries' educational funding levels for each of the past 25 years.
+
+    ***Sampling variability: Although the sample size is large, this design has high variability due to the random selection of 75 countries from the past 25 years.***
+    
+    ::: {.callout-tip title="HG comments"}
+    This sample will exhibit a small amount of sampling variability. I am sampling a large proportion of my population (38% of all countries are sampled). Therefore, each draw should produce similar estimates.
+    :::
+
+    ***Potential bias: There is a potential for selection bias if the 75 countries are not appropriately representative of the global population.***
+    
+    ::: {.callout-tip title="HG comments"}
+    This sample will not be biased. The long-term average educational funding level will reflect the average educational funding level of all countries globally. You need to specifically let me know how this sample may not be appropriately representative of the global population to answer this question.
+    :::
+
+## Question 3
+
+*Points: 10*
+
+::: {.callout-tip title="HG comments"}
+8/10
+:::
+
+Using the `hanmerKalkanANES` dataset (posted on ELMs), construct a cross-tab with `presvote` (dichotomous variable coded with a value label) as the dependent variable and `ageCategorical` (1 = 18-30; 2 = 31-40; 3 = 41-50; 4 = 51-60; and 5 = 61-over) as the independent variable. Create a table with the cross-tab results and interpret them -- i.e., what is the apparent association, if any, between age and U.S. presidential vote in 2004?
+
+```{r}
+library(tidyverse)
+library(modelsummary)
+library(dplyr)
+```
+
+::: {.callout-tip title="HG comments"}
+Please avoid hard coding file paths into your scripts (for example: `~/Desktop/r studio/GVPT_Problem_Sets/hanmerKalkanANES.RData`). This causes an error when someone else tries to render your script. Instead, use `here::here()`.  
+:::
+
+```{r}
+load(here::here("hanmerKalkanANES.RData"))
+```
+
+```{r}
+x <- x |>
+  mutate (ageCategorical = case_when(
+    18<=age & age<=30 ~ "1",
+    31<=age & age<=40 ~ "2",
+    41<=age & age<=50 ~ "3",
+    51<=age & age<=60 ~ "4",
+    61<=age ~ "5"
+  ))
+summary(x$age)
+
+
+datasummary_crosstab(presvote ~ ageCategorical, data = x)
+```
+
+**Interpretation -** Each presidential candidate received their highest number of votes from the 5th age category, which is ages 61 and up. Bush received 45 votes from Americans who are 61 and up, while Kerry received 55 votes from this group. One could argue that this is due the older group's increased political knowledge and/or their freedom to vote at their polling place since they are at the retirement age. The number of votes that Kerry and Bush received from the 1st and 4th age categories varies and does not present an association.
+
+::: {.callout-tip title="HG comments"}
+It is useful to talk in terms of proportions, rather than raw numbers. What percentage of people who voted for Kerry were 61+ years old? What percentage of people who voted for Bush were 61+ years old? What percentage of people who are 61+ voted for Kerry? 
+:::
+
+Next, what is:
+
+A.  The conditional distribution of respondents who are 41-50 that voted for Kerry?
+
+```{r}
+x |>
+  summarize(prob = sum(ageCategorical == "3" & presvote == "Kerry", na.rm = TRUE)/sum(ageCategorical == "3", na.rm =TRUE))
+```
+
+A.  The conditional distribution of respondents who are 41-50 that voted for Bush?
+
+```{r}
+x |>
+  summarize(prob = sum(ageCategorical == "3" & presvote == "Bush", na.rm = TRUE)/sum(ageCategorical == "3", na.rm =TRUE))
+```
