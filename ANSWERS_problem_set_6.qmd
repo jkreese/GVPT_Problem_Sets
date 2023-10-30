@@ -1,0 +1,270 @@
+---
+title: "Problem Set 6"
+subtitle: "Due date: 30 October"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 40**
+
+## Question 1
+
+*Points: 10*
+
+I hypothesize that the mean mathematics SAT score for University of Maryland students is different than 600. I take an SRS of 625 students and find that the mean mathematics score among those students is 610. The standard deviation of my sample is 75.
+
+### Part A
+
+Based on my sample, what is a point estimate for the mean mathematics SAT score for University of Maryland students?
+
+**Answer - The point estimate for the mean mathematics SAT score for UMD is 610 based on the sample.**
+
+### Part B
+
+What is a 95% confidence interval around that estimate?
+
+```{r}
+sample_mean1 <- 610
+sample_size1<- 625
+standard_deviation1 <- 75
+
+
+standard_error1 <- standard_deviation1 / sqrt(sample_size1)
+
+
+margin_of_error1 <- 1.96 * standard_error1
+
+
+confidence_interval1 <- c(sample_mean1 - margin_of_error1, sample_mean1 + margin_of_error1)
+confidence_interval1
+
+```
+
+**Answer - The 95% confidence interval is 604.12 to 615.88.**
+
+### Part C
+
+What is the null hypothesis?
+
+**Answer - The null hypothesis is 600.**
+
+### Part D
+
+What is the two-tailed p-value and what does it mean?
+
+```{r}
+sample_mean1 <- 610
+population_mean1 <- 600
+sample_size1 <- 625
+sample_std_dev1 <- 75
+
+
+standard_error1 <- sample_std_dev1 / sqrt(sample_size1)
+
+
+t <- (sample_mean1 - population_mean1) / standard_error1
+
+
+degree <- sample_size1 - 1
+
+
+p_value <- 2 * pt(-abs(t), degree)
+
+
+print(p_value)
+```
+
+### Part E
+
+Do the data support my hypothesis? Why, or why not?
+
+**Answer - Since the p value was small, it failed to reject the null hypothesis. Meaning, the hypothesis presented at the start of the question was not support.**
+
+## Question 2
+
+*Points: 10*
+
+I take an SRS of 900 citizens in a public opinion survey and find that the mean feeling thermometer rating (on a 0 to 100 scale) of President Biden is 51.5 with a standard deviation of 25. Now, suppose I hypothesize that feelings toward Biden should be greater than 50.
+
+### Part A
+
+What is the null hypothesis?
+
+**Answer - The null hypothesis in this case would be that the mean feeling thermometer rating of President Biden is 50.**
+
+### Part B
+
+What is a 95% confidence interval around the sample statistic? Does this interval indicate support for a two-tailed test of my hypothesis (`p < 0.05` as the threshold)? Why, or why not?
+
+```{r}
+sample_mean2 <- 51.5
+sample_size2<- 900
+standard_deviation2 <- 25
+
+
+standard_error2 <- standard_deviation2 / sqrt(sample_size2)
+
+
+margin_of_error2 <- 1.96 * standard_error2
+
+
+confidence_interval2 <- c(sample_mean2 - margin_of_error2, sample_mean2 + margin_of_error2)
+confidence_interval2
+```
+
+**Answer - The confidence interval is 49.867 to 53.133. The interval does not present enough evidence to support a two-tailed test of the hypothesis, since the null hypothesis is 50 and the interval lies in between 50 we could not fully reject the null hypothesis.**
+
+### Part C
+
+What is a 90% confidence interval around the sample statistic? Does this interval indicate support for a one-tailed test of my hypothesis (`p < 0.05` as the threshold)? Why, or why not?
+
+```{r}
+sample_mean2 <- 51.5
+standard_deviation2 <- 25
+sample_size2 <- 900
+confidence_level2 <- 0.90
+
+
+z2 <- qnorm(1 - (1 - confidence_level2)/2)
+z2
+
+margin_of_error2 <- z2 * (standard_deviation2 / sqrt(sample_size2))
+confidence_interval2 <- c(sample_mean2 - margin_of_error2, sample_mean2 + margin_of_error2)
+
+confidence_interval2
+
+```
+
+**Answer - The 90% confidence interval is 50.13 to 52.87. This interval does indicate support a one-tailed test of the hypothesis since the lower bound interval is 50.13 which is greater than the hypothesis. This indicates that even at the lower end of the confidence interval, the estimated population mean is already greater than 50.**
+
+## Question 3
+
+*Points: 5*
+
+Suppose I conduct a difference of means test and obtain a t-statistic of 2.50. What does this indicate about the statistical significance of the sample mean compared to the null hypothesis?
+
+**Answer - A t-statistic of 2.50 suggests that the observed difference in the mean is 2.50 standard errors away from the mean difference expected under the null hypothesis. This indicates that the observed difference is relatively large. The t-statistics depends on the significance level. If the t-statistics is statistically significant, it means that we can reject the null hypothesis.**
+
+## Question 4
+
+*Points: 5*
+
+I hypothesize that fewer than 40% of registered voters approve of President Biden. I conduct an SRS of 720 registered voters and find that 37.9% of them approve of President Biden.
+
+### Part A
+
+Based on my sample, what is a point estimate for the proportion of the population that approves of President Biden?
+
+**Answer - The point estimate for the proportion of the population that approves of President Biden based on the sample is 37.9%.**
+
+### Part B
+
+What is a 90% confidence interval around that estimate?
+
+```{r}
+p_hat4 <- 0.379
+sample_size4 <- 720 
+
+standard_error4 <- sqrt((p_hat4 * (1 - p_hat4)) / sample_size4)
+
+confidence_level4 <- 0.90
+
+z4 <- qnorm(1 - (1 - confidence_level4)/2)
+
+margin_of_error4 <- z4 * standard_error4
+
+lower_bound4 <- p_hat4 - margin_of_error4
+upper_bound4 <- p_hat4 + margin_of_error4
+
+cat("90% Confidence Interval: (", lower_bound4, ",", upper_bound4, ")\n")
+```
+
+**Answer - The 90% confidence interval is 0.349 to 0.409.**
+
+### Part C
+
+What is the null hypothesis?
+
+**Answer - The null hypothesis is 40% of registered voters would approve of President Biden.**
+
+### Part D
+
+What is the one-tailed p-value and what does it mean?
+
+```{r}
+sample_size4 <- 720
+p_hat4 <- 0.379
+null4 <- 0.40
+
+standard_error4 <- sqrt((null4 * (1 - null4)) / sample_size4)
+
+z4 <- (p_hat4 - null4) / standard_error4
+
+p_value4 <- pnorm(z4, lower.tail = TRUE)
+
+p_value4
+```
+
+**Answer - Given that the one-tailed p-value is greater than the significance level of 0.05, we fail to reject the null hypothesis. This indicates that there isn't sufficient evidence to support the hypothesis.**
+
+### Part E
+
+Do the data support my hypothesis? Why, or why not?
+
+**Answer - Based on the data, it does not provide support for your hypothesis. The one-tailed p-value is greater than the conventional significance level of 0.05, indicating that there isn't enough evidence to conclude that the true approval rate is less than 40%.**
+
+## Question 5
+
+*Points: 5*
+
+I hypothesize that in countries where Muslim is the predominate religious group, women have a greater number of children on average (i.e., the total fertility rate is higher). Use the `world` dataset to test my hypothesis. State the null hypothesis and interpret what the results tell us about the null and alternative hypotheses. Be sure to show all work necessary to find the answer (i.e., you may use R to assist you, but you should show the necessary computations by hand).
+
+::: callout-note
+The `world` data set can be found in `poliscidata::world`.
+:::
+
+Null Hypothesis: There is no significant difference in the total fertility rate between counties where the predominant religious group is Muslim and countries where Muslim is not the predominant religious group.
+
+Alternative Hypothesis: Countries where the predominant religious group is Muslim have a higher total fertility rate.
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+world_religion <- poliscidata::world |> 
+  mutate(group_religion = ifelse(religoin == "Muslim", "Muslim", "non_Muslim"))
+
+world_religion_M <- world_religion |> 
+  filter(group_religion%in%c("Muslim")) |>
+  select(group_religion, fertility)
+
+world_religion_N_M <- world_religion |> 
+  filter(group_religion%in%c("non_Muslim")) |>
+  select(group_religion, fertility)
+  
+```
+
+```{r}
+p_hat5 <- 46/167
+p_null <- 119/167
+sample_size5 <- 167
+
+z5 <- (p_hat5 - p_null) / sqrt(p_null * (1-p_null) / sample_size5)
+
+p_value5 <- pnorm(z5)
+
+cat("One-tailed:", p_value5)
+```
+
+**Answer - Since the p value is small, it provides evidence against the null hypothesis. It is not likely to observe this data, especially since the p value is so small, if there were no difference in the average number of children women gave birth to in countries where the predominant religion is Muslim compared to countries where the predominant religious group was no Muslim**
+
+-   **We reject the null hypothesis, which is there is no significant difference in the total fertility rate between counties where the predominant religious group is Muslim and countries where Muslim is not the predominant religious group.**
+
+-   **The results support the alternative hypothesis, which is countries where the predominant religious group is Muslim have a higher total fertility rate.**
