@@ -81,7 +81,9 @@ p_value <- 2 * pt(-abs(t), degree)
 print(p_value)
 ```
 
-### Part E
+**Answer - Given that the p-value is 0.0009088909, which is significantly less than 0.05, it indicates that there is strong evidence against the null hypothesis.**
+
+### **Part E**
 
 Do the data support my hypothesis? Why, or why not?
 
