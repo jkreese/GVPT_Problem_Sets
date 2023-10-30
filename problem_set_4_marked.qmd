@@ -197,8 +197,8 @@ Countries that have ratified the Rome Accords given that they are a democracy - 
 
 P(D or RA) = P(D) + P(RA\|D) - P(D and RA\|D)
 
-:::{.callout-tip title="HG comments"}
-Almost! 
+::: {.callout-tip title="HG comments"}
+Almost!
 
 $$
 Pr(D\ or\ R) = Pr(D) + Pr(R) - Pr(D \& R)
@@ -207,8 +207,8 @@ $$
 
 P(D or RA) = 0.60 + 0.90 - (0.60 \* 0.90) = 0.96 or 96%
 
-:::{.callout-tip title="HG comments"}
-Therefore:  
+::: {.callout-tip title="HG comments"}
+Therefore:
 
 $$
 Pr(D\ or\ R) = 0.6+0.8-0.6*0.9 = 0.86
