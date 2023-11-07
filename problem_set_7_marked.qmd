@@ -1,0 +1,167 @@
+---
+title: "Problem Set 7"
+subtitle: "Due date: 6 November"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 20**
+
+## Question 1
+
+*Total points: 10*
+
+::: {.callout-tip}
+10/10
+:::
+
+I hypothesize that the older someone is, the more they like watching golf. I conduct a survey based on an SRS of adults in America. The independent variable is a four-category measure of age: 21-35, 36-50, 51-65, 66-plus. The dependent variable is a three-category measure of how much they enjoy watching golf: not at all, somewhat, very much.
+
+### Part A
+
+*Points: 4*
+
+::: {.callout-tip}
+4/4
+:::
+
+Make a cross-tab, by hand, of the relationship between these two variables based on the following (completely made up) data. Make sure that you present both raw counts and the appropriate percentages to examine the relationship.
+
+![](img/PS7.png)
+
+![](images/A%202.png)
+
++----------------------------+--------+--------+--------+---------+-----------+
+| Enjoyment of Watching Golf | 21-35  | 36-50  | 51-65  | 66-plus | Row Total |
++============================+========+========+========+=========+===========+
+| **Not At All**             | 5      | 1      | 2      | 3       | 11        |
+|                            |        |        |        |         |           |
+|                            | 45.5%  | 9.1%   | 18.2%  | 27.3%   | 22%       |
++----------------------------+--------+--------+--------+---------+-----------+
+| **Somewhat**               | 6      | 5      | 2      | 4       | 17        |
+|                            |        |        |        |         |           |
+|                            | 35.3%  | 29.4%  | 11.8%  | 23.5%   | 34%       |
++----------------------------+--------+--------+--------+---------+-----------+
+| **Very Much**              | 1      | 3      | 4      | 4       | 12        |
+|                            |        |        |        |         |           |
+|                            | 8.3%   | 25%    | 33.3%  | 33.3%   | 24%       |
++----------------------------+--------+--------+--------+---------+-----------+
+| **Column Total**           | 12     | 9      | 8      | 11      | 40        |
++----------------------------+--------+--------+--------+---------+-----------+
+
+### Part B
+
+*Points: 2*
+
+::: {.callout-tip}
+2/2
+:::
+
+Do the data support my hypothesis? Be sure to explain the nature of the relationship (or lack thereof, if relevant).
+
+**Answer - Your hypothesis that the older someone is, the more they like to watch golf is supported by the data. When looking at those who categorize their level of enjoyment from watching golf as "Very Much," the highest percentage (33.3%) is bestowed on those who are in the age ranges 51-65 and 66 plus. Individuals in the age range 31-50 are in a close second at 25%, while those who are 21-35 come in dead last at 8.3%. After observing this, one can clearly see that older individuals, in this those who are 51 and older, like to watch golf more than those who are 50 and younger.**
+
+### Part C
+
+*Points: 2*
+
+::: {.callout-tip}
+2/2
+:::
+
+Compute (by hand) the chi-square statistic to test the null hypothesis of no relationship between these two variables. Be sure to show your work.
+
+![](images/A-01.png)
+
++----------------------------+---------------+-----------------+---------------+-----------------+---------------+
+| Enjoyment of Watching Golf | 21-35         | 36-50           | 51-65         | 66-plus         | Row Total     |
++============================+===============+=================+===============+=================+===============+
+| **Not At All**             | 5             | 1               | 2             | 3               | 11            |
+|                            |               |                 |               |                 |               |
+|                            | 45.5%         | 91%             | 18.2%         | 27.3%           | 22%           |
+|                            |               |                 |               |                 |               |
+|                            | expected: 3.3 | expected: 2.475 | expected: 2.2 | expected: 3.025 | chisq: 1.9368 |
+|                            |               |                 |               |                 |               |
+|                            | chisq: 0.8758 | chisq: 0.8790   | chisq: 0.1818 | chisq: 0.0002   |               |
++----------------------------+---------------+-----------------+---------------+-----------------+---------------+
+| **Somewhat**               | 6             | 5               | 2             | 4               | 17            |
+|                            |               |                 |               |                 |               |
+|                            | 35.3%         | 29.4%           | 11.8%         | 23.5%           | 34%           |
+|                            |               |                 |               |                 |               |
+|                            | expected: 5.1 | expected: 3.825 | expected: 3.4 | expected: 4.675 | chisq: 1.1937 |
+|                            |               |                 |               |                 |               |
+|                            | chisq: 0.1588 | chisq: 0.3609   | chisq: 0.5765 | chisq: 0.0975   |               |
++----------------------------+---------------+-----------------+---------------+-----------------+---------------+
+| **Very Much**              | 1             | 3               | 4             | 4               | 12            |
+|                            |               |                 |               |                 |               |
+|                            | 8.3%          | 25%             | 33.3%         | 33.3%           | 24%           |
+|                            |               |                 |               |                 |               |
+|                            | expected: 3.6 | expected: 2.7   | expected: 2.4 | expected: 3.3   | chisq: 3.1263 |
+|                            |               |                 |               |                 |               |
+|                            | chisq: 1.8778 | chisq: 0.0333   | chisq: 1.0667 | chisq: 0.1485   |               |
++----------------------------+---------------+-----------------+---------------+-----------------+---------------+
+| **Column Total**           | 12            | 9               | 8             | 11              | 40            |
+|                            |               |                 |               |                 |               |
+|                            |               |                 |               |                 | chisq: 6.2568 |
++----------------------------+---------------+-----------------+---------------+-----------------+---------------+
+
+### Part D
+
+*Points: 2*
+
+::: {.callout-tip}
+2/2
+:::
+
+Using the chi-square statistic that you computed in question 1(c), can you reject the null hypothesis of no relationship between these two variables with 95% confidence? Why, or why not?
+
+**Answer - With a chi-squared statistic of 6.2568 and 6 degrees of freedom, the critical value for rejection is 12.59 with 95% confidence. Since 6.2568 is less than 12.59, it fails to reject null hypothesis at the 0.05/95% confidence level.**
+
+## Question 2
+
+*Points: 10*
+
+::: {.callout-tip}
+8/10
+:::
+
+I hypothesize that people who identify as more liberal are less likely to see gun control as an important issue than people who identify as more conservative. Using the `nes` dataset from the `poliscidata` package, create a cross-tab examining the effect of someone's self-identification as liberal or conservative, measured using the variable `libcon3` variable, and their indication of how important gun access is to them as an issue, measured using the `gun_importance3` variable.
+
+```{r}
+library(poliscidata)
+library(modelsummary)
+
+datasummary_crosstab(libcon3 ~ gun_importance3, data = nes)
+
+```
+
+::: {.callout-tip}
+Like you did above, we want to see how the independent variable effects the dependent variable: 
+
+```{r}
+datasummary_crosstab(gun_importance3 ~ libcon3, data = nes)
+```
+:::
+
+Do the data support my hypothesis? Be sure to explain the nature of the relationship (or lack thereof, if relevant). Report a chi-square statistic (it is fine to have R generate the statistic and p-value). What does the chi-square statistic tell you about whether you can reject the null hypothesis of no relationship between these two variables with 95% confidence? Why, or why not?
+
+```{r}
+chisq.test(nes$libcon3, nes$gun_importance3)
+```
+
+Hypothesis: People who identify as more liberal are less likely to see gun control as an important issue than people who identify as more conservative.
+
+**Answer - The data shows that the hypothesis is not supported. Since 37% of liberals view gun control as "More Important" versus 33.3% of conservatives view gun control as "More Important," it shows that those who identify as conservative are less likely than those who identify as liberal to see gun control as an important issue.**
+
+::: {.callout-tip}
+This is why the structure of the crosstab is so important. We do see support for the direction of the hypothesis. 
+:::
+
+**The chi-squared statistic is 40.105 and the p-value is 0.00000004118. At 95% confidence, the p-value is 0.05 and the critical value of rejection at 4 degrees of freedom is 9.49. Since the p-value from this data is significantly lower than 0.05 and the chi-squared statistic is significantly higher than 9.49, this data rejects the null hypothesis.**
