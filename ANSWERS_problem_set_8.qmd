@@ -1,0 +1,135 @@
+---
+title: "Problem Set 8"
+subtitle: "Due date: 20 November"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 30**
+
+## Question 1
+
+*Points: 5*
+
+For the following regression equation, $\hat{Y} = 8.5 + 6x + \epsilon$, the standard error for $\beta_0$ is 2.5, the standard error for $\beta_1$ is 3.5, and the sample size is 2000. Find the t-statistic, 95% confidence interval, and p-value (using a two-tailed test) for $\beta_1$.
+
+Is $\beta_1$ statistically significant at the 0.05-level with a two-tailed test? Why or why not?
+
+```{r}
+beta_1_hat <- 6
+SE_beta_1 <- 3.5
+sample_size1 <- 2000
+
+t_statistic1 <- beta_1_hat / SE_beta_1
+
+df1 <- sample_size1 - 2
+
+critical1 <- 0.05
+t_critical1 <- qt(1 - critical1 / 2, df1)
+
+conf_interval1 <- c(beta_1_hat - t_critical1 * SE_beta_1, beta_1_hat + t_critical1 * SE_beta_1)
+
+p_value1 <- 2 * (1 - pt(abs(t_statistic1), df1))
+
+
+t_statistic1
+conf_interval1
+p_value1
+
+```
+
+**Answer - The t-statistic is 1.714286. The 95% confidence interval is -0.8640321 to 12.8640321. The p-value is 0.08663135. Since the p-value is greater than 0.05, it fails to reject the null hypothesis that** $\beta_1$ **= 0, indicating that** $\beta_1$ **is not statistically significant.**
+
+## Question 2
+
+*Points: 5*
+
+Suppose you estimate an OLS regression and retrieve a $R^2$ value of 0.45. If the Total Sum of Squares (TSS) from that regression equals 4,700, what is the value for the Residual Sum of Squares (RSS)?
+
+```{r}
+R_squared2 <- 0.45
+TSS2 <- 4700
+
+ESS2 <- R_squared2 * TSS2
+
+RSS2 <- TSS2 - ESS2
+
+RSS2
+
+```
+
+**Answer - The value for the Residual Sum of Squares (RSS) is 2,585.**
+
+## Question 3
+
+*Points: 5*
+
+Suppose you estimate a bivariate regression with a sample size of 102 and obtain a regression coefficient ($\beta_1$) of 5.0. What is the largest standard error that $\beta_1$ could have and still be statistically significant (i.e., reject the null hypothesis of no relationship) at the 0.05 level with a one-tailed test?
+
+```{r}
+beta_1 <- 5.0
+sample_size2 <- 102
+critical2 <- 0.05
+
+df2 <- sample_size2 - 2
+
+t_critical2 <- qt(1 - critical2, df2)
+
+SE2_beta_1 <- beta_1 / t_critical2
+
+SE2_beta_1
+```
+
+**Answer - The largest standard error that would still result in a statistically significant coefficient of** $\beta_1$ **at the 0.05 level with a one-tailed test is 3.011623**
+
+## Question 4
+
+*Points: 5*
+
+Using the `states` dataset from the `poliscidata` package, produce a scatterplot of the variables `romney2012` and `hispanic10` (with `romney2012` as the dependent variable on the y-axis). Fit a regression line to the scatterplot. Describe the scatterplot and include a copy of it. Note any suspected outliers, if any (a visual inspection will suffice for this question).
+
+::: callout-note
+The variable `romney2012` measures the percentage of the state's vote that Mitt Romney received in the 2012 presidential election, and `hispanic10` indicates the percentage of the state's population that identified as Hispanic in 2010.
+:::
+
+```{r}
+library(poliscidata)
+library(ggplot2)
+
+ggplot(states, aes(x = hispanic10, y = romney2012)) +
+  geom_point() +            
+  geom_smooth(method = "lm", se = FALSE, color = "blue") + 
+  labs(x = "Population that Identified as Hispanic in 2010 (Percentage)",
+       y = "Vote that Romney Received in the 2012 (Percentage)")
+
+```
+
+**Answer - The scattorplot indicates that as the Hispanic population increases, the percentage of states that voted for Romney decreases. Romney received the most votes when the Hispanic population was between 0 and 10 percent.**
+
+## Question 5
+
+*Points: 10*
+
+Estimate a bivariate regression with `romney2012` as the dependent variable and `hispanic10` as the independent variable and report the results in a professionally formatted table. In as much detail as possible, describe (and interpret) the regression results.
+
+```{r}
+library(modelsummary)
+library(stargazer)
+# Fit bivariate regression model
+regress4 <- lm(romney2012 ~ hispanic10, data = states)
+
+regress4
+
+stargazer(regress4, type = "text")
+
+summary(regress4)
+```
+
+**Answer -** **The coefficient for hispanic10 is -0.196, suggesting that, on average, for each one-unit increase in hispanic10, the dependent variable romney2012 decreases by 0.196 units. The negative sign indicates a negative relationship. The coefficient for hispanic10 is not statistically significant at conventional levels of 0.1, 0.05, and 0.01 since the p-value of 0.182 is greater than all the critical values.** **The R-squared value is 0.037, indicating that the model explains 3.7% of the variance in the dependent variable. This suggests relatively weak connection.**
