@@ -1,0 +1,135 @@
+---
+title: "Problem Set 9"
+subtitle: "Due date: 4 December"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 40**
+
+## Question 1
+
+*Points: 10*
+
+Table 1 below reports the results from two regression models. In Model 1, in Table 1, $Y$ is regressed on $X_1$ and, in Model 2, $Y$ is regressed on both $X_1$ and $X_2$. Why might $X_1$ be statistically significant at conventional levels in Model 1 but statistically insignificant in Model 2? Be as specific as possible.
+
+![](images/ps9.png){width="322"}
+
+**Answer -** $X_1$ might be statistically significant at conventional levels in Model 1 but statistically insignificant in Model 2 for multiple reasons including sample size as well as additive and interactive effects. There could be an increase in the standard error and have an effect on the coefficient estimates if the sample size is too small and additional variables are involved. There is an interactive effect of $X_1$ and $X_2$ if the effect of $X_1$ on $Y$ changes across different values of $X_2$. If the relationship between $X_1$ and $X_2$ is dependent on the level of $X_2$, this could only be seen in Model 2. The effect of $X_1$ on $Y$ is conditional on $X_2$.
+
+## Question 2
+
+*Points: 10*
+
+Using the `censusAggregate` dataset (posted on ELMs) --- which is survey data aggregated to the state level (1972-2000) --- estimate a regression with `vote` as the dependent variable and the following independent variables: `nonSouth`, `edr`, and `pcthsg`. Report the results in a professionally formatted table and interpret the regression results.
+
+Also, create a figure to display the predicted values (with confidence intervals) for the effect of `pcthsg` on the turnout rate. Lastly, is it meaningful to interpret the constant term on its own? Why, or why not?
+
+::: callout-note
+`vote` is the turnout rate in a state in a given year (i.e., the number of people who voted divided by the number eligible to vote).
+
+`nonSouth` is a dummy variable equal to `0` for Southern states and a `1` for non-Southern states.
+
+`pcthsg` is the percentage of the population in a state that graduated high school.
+
+`edr` is a dummy variable equal to `1` for states that used election-day registration and a `0` for states without election-day registration.
+:::
+
+```{r}
+censusAggregate <- read.csv("censusAggregate.csv")
+library(marginaleffects)
+library(plotly)
+library(modelsummary)
+library(stargazer)
+```
+
+```{r}
+model2 <- lm(vote ~ nonSouth + edr + pcthsg, data = censusAggregate)
+summary(model2)
+
+```
+
+```{r}
+names <- c("Non-Southern States", "States Requiring Election Day Registration", "Population of Hich School Graduates (percentage)")
+
+stargazer(model2, type = "text",
+          title = "Regression",
+          covariate.labels = names,
+          align = TRUE, 
+          single.row = TRUE,
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          digits = 3
+)
+```
+
+```{r}
+modelsummary::modelsummary(model2,
+                           statistic = c("t = {statistic}", "SE = {std.error}", "conf.int", "p.value"),
+                           coef_rename = c("nonSouth" = "Non-Southern States", "edr" = "Election-Day Registration", "pcthsg" = "Population of High School Graduates (percentage)"),
+                           gof_map = "nobs",
+                           )
+```
+
+```{r}
+plot_predictions(model2, condition = "pcthsg")
+```
+
+**Answer -** The regression results suggest that there will be higher voter turnout rates being in a non-Southern state, having election day registration, and having a high percentage of the population that graduated high school. The regression results show that non-Southern states have a positive association with voting turnout rates since there is a 5.546 increase, meaning this effect is statistically significant at a p-value of 0.001. States that have election day registration is connected with a 5.792 increase in the voter turnout rate with a statistical significance at the p-value of 0.001. There is also an increase in the voter turnout of 0.101 in the percentage of the population that graduated high school at the p-value of 0.01. $R^2$ is 0.281 which indicates the proportion of variance in the dependent variable that is explained by the independent variable. The F statistic of 46.049 is the statistic tests of the significance of the overall model.
+
+Interpreting the constant term on its own does not seem meaningful since the constant term is a representative of the expected turnout rate when the other independent variables are zero. If the independent variables are dummy variables, like nonSouth and edr, then this creates a problem. Interpreting the constant without having a significant consideration of the other variables can lead to misinterpretation.
+
+## Question 3
+
+*Points: 5*
+
+Using the regression results from the previous question, evaluate the null hypothesis that the effects (i.e., regression coefficients) of `nonSouth` and `pcthsg` are jointly equal to zero. Can you reject the null hypothesis? Be sure to demonstrate how you reached a definitive conclusion.
+
+**Answer -** The null hypothesis is that nonSouth and pcthsg are jointly equal to zero. The alternative hypothesis is that at least one of the variables is not equal to zero. Since the p-value is significantly low, it has strong evidence against the null hypothesis which states that the effects of the population that graduated high school and of non-Southern states are jointly equal. This means that the predictors will greatly improve the model fit compared to the model with only the States with Election-Day Registration.
+
+Since the regression results showed that the p-values are significantly lower than the 95% confidence interval, I can reject the null hypothesis. The p-value can be use to conclude that at least one of the variables isn't equal to zero since the relationship between nonSouth and pcthsg in predicting the dependent variable is statistically significant.
+
+## Question 4
+
+*Points: 15*
+
+Using one of the other datasets available in the `poliscidata` package pick one dependent variable and two or more independent variables. Run a regression of the dependent variable on the independent variables. In your answer, describe why you picked the variables you did, produce a professionally formatted results table, and describe your statistical and substantive findings.
+
+```{r}
+library(poliscidata)
+
+model4 <- lm(relig_high ~ conpct_m + gay_support3, data = states)
+summary(model4)
+
+modelsummary::modelsummary(model4,
+                           statistic = c("t = {statistic}", "SE = {std.error}", "conf.int", "p.value"),
+                           coef_rename = c("conpct_m" = "Mass Public that is Conservative (percent)", "gay_support3Med" = "Medium Public Support of Gay Rights", "gay_support3High" = "High Public Support of Gay Rights"),
+                           gof_map = "nobs",
+                           )
+```
+
+**Answer -** I picked these variables because I wanted to know how support for gay rights, at different levels, and how the percentage of the population being conservative depended on high religiosity. As an Americanist in the department, one of my research interest is religion. I hypothesize that when there is a high level of religiosity, there will also be large number of conservatives in the population. Also, with a high level of religiosity also comes a large drop in the number of people who have high public support of gay rights.
+
+1.  **Mass Public that is Conservative (conpct_m):**
+
+    -   The coefficient is 0.6083. A one-unit increase in 'conpct_m' is associated with an increase of approximately 0.61 units in the religiosity variable.
+
+    -   The positive coefficient for 'conpct_m' suggests that a higher percentage of conservative voters is associated with higher values of the religiosity variable.
+
+2.  **Medium Public Support of Gay Rights (gay_support3Med):**
+
+    -   The coefficient is -6.9605. This suggests that, holding other variables constant, a one-unit increase in 'gay_support3Med' is associated with a decrease of approximately 6.96 units in the religiosity variable.
+
+3.  **High Public Support of Gay Rights (gay_support3High):**
+
+    -   The coefficient is -12.1245. Similar to the previous variable, a one-unit increase in 'gay_support3High' is associated with a larger decrease (about 12.12 units) in the religiosity variable.
+
+    -   The negative coefficients for 'gay_support3Med' and 'gay_support3High' suggest that higher levels of support for gay rights are associated with lower values of religiosity variable.
+
+All three predictor variables are statistically significant at conventional significance levels. The Multiple R-squared is 0.7239, suggesting that the model explains approximately 72.39% of the variance in the religiosity variable. The F-statistic tests the overall significance of the model, and the associated p-value is very low (6.595e-13), indicating that the model as a whole is statistically significant.
